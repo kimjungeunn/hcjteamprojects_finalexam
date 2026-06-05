@@ -584,3 +584,237 @@ p {
     font-size: 2rem;
   }
 }
+
+/* 기존 style.css 내용들... (위에 그대로 두시면 됩니다) */
+/* 아래 내용부터 맨 밑에 추가해 주세요! */
+
+/* =========================================
+   추가된 UI 요소 스타일 (필터, 시계, 요약 모달)
+========================================= */
+
+/* 1. 카테고리 필터 & 요약 버튼 */
+.filter-container {
+  display: flex;
+  width: 100%;
+  flex-basis: 100%; /* 카드 위에서 한 줄을 꽉 채우게 만듭니다 */
+  margin: 0 50px 20px 50px;
+  gap: 15px;
+  align-items: center;
+}
+
+.filter-btn {
+  padding: 8px 20px;
+  border-radius: 20px;
+  border: 1px solid #444;
+  background-color: #1e1e2f;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* 필터 호버 효과 (자바스크립트 없이 CSS로 처리) */
+.filter-btn:hover {
+  border-color: #fff;
+}
+.filter-btn[data-filter='웹']:hover {
+  border-color: #03ff40;
+  color: #03ff40;
+}
+.filter-btn[data-filter='앱']:hover {
+  border-color: #038eff;
+  color: #038eff;
+}
+.filter-btn[data-filter='네트워크']:hover {
+  border-color: #ff0303;
+  color: #ff0303;
+}
+
+/* 2. 요약 버튼 특별 디자인 */
+.summary-btn {
+  padding: 8px 20px;
+  border-radius: 20px;
+  border: 1px solid #ff0303;
+  background-color: rgba(255, 3, 3, 0.1);
+  color: #ff0303;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+  margin-left: 10px;
+}
+.summary-btn:hover {
+  background-color: #ff0303;
+  color: #fff;
+  box-shadow: 0 0 15px rgba(255, 3, 3, 0.5);
+}
+
+/* 3. 시스템 시계 */
+.clock-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  flex-basis: 100%;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+#systemClock {
+  color: #03ff40;
+  font-size: 22px;
+  font-weight: bold;
+  font-family: monospace;
+  padding: 12px 24px;
+  border: 2px solid #03ff40;
+  border-radius: 8px;
+  background-color: rgba(3, 255, 64, 0.1);
+  letter-spacing: 1px;
+}
+
+/* 4. 요약 팝업 (모달) 기본 뼈대 */
+.modal-overlay {
+  display: none; /* 평소엔 숨김 */
+  position: fixed;
+  inset: 0; /* top:0, left:0, right:0, bottom:0 랑 같음 */
+  background-color: rgba(0, 0, 0, 0.85);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+}
+
+/* JS에서 'show' 클래스를 추가하면 보이게 됨 */
+.modal-overlay.show {
+  display: flex;
+}
+
+.modal-content {
+  position: relative;
+  width: 90%;
+  max-width: 800px;
+  height: 500px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 40px rgba(255, 3, 3, 0.4); /* 기본 빨간 그림자 */
+  cursor: pointer;
+  transition: box-shadow 0.4s ease;
+}
+
+/* 5. 모달 배경 이미지 전환 (Opacity 활용) */
+.modal-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transition: opacity 0.4s ease;
+}
+.bg-danger {
+  background-image: url('danger.jpg');
+  z-index: 1;
+}
+.bg-secure {
+  background-image: url('security.jpg');
+  z-index: 2;
+  opacity: 0;
+} /* 기본으로 숨김 */
+
+/* 6. 모달 텍스트 전환 */
+.modal-text-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  background-color: rgba(0, 0, 0, 0.75); /* 어두운 유리 효과 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.text-layer {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 40px;
+  width: 100%;
+  height: 100%;
+  transition: opacity 0.4s ease;
+}
+
+.text-danger {
+  opacity: 1;
+} /* 기본으로 보임 */
+.text-secure {
+  opacity: 0;
+} /* 기본으로 숨김 */
+
+/* 텍스트 상세 디자인 */
+.danger-title {
+  color: #ff0303;
+  margin-bottom: 30px;
+  font-size: 28px;
+  text-shadow: 0 0 15px rgba(255, 0, 0, 0.8);
+  text-align: center;
+}
+.danger-list p {
+  color: #eee;
+  font-size: 18px;
+  line-height: 2;
+  text-align: left;
+}
+.danger-list strong {
+  color: #ff4444;
+  font-size: 20px;
+  margin-right: 10px;
+}
+
+.secure-title {
+  color: #03ff40;
+  margin-bottom: 30px;
+  font-size: 28px;
+  text-shadow: 0 0 15px rgba(3, 255, 64, 0.8);
+  text-align: center;
+}
+.secure-list p {
+  color: #eee;
+  font-size: 18px;
+  line-height: 2;
+  text-align: left;
+}
+.secure-list strong {
+  color: #03ff40;
+  font-size: 20px;
+  margin-right: 10px;
+}
+
+/* 🌟 마우스를 올리거나(Hover), 터치해서 'secure-mode' 클래스가 붙었을 때의 변화 🌟 */
+.modal-content:hover,
+.modal-content.secure-mode {
+  box-shadow: 0 0 50px rgba(3, 255, 64, 0.5);
+}
+.modal-content:hover .bg-secure,
+.modal-content.secure-mode .bg-secure {
+  opacity: 1;
+}
+.modal-content:hover .text-danger,
+.modal-content.secure-mode .text-danger {
+  opacity: 0;
+}
+.modal-content:hover .text-secure,
+.modal-content.secure-mode .text-secure {
+  opacity: 1;
+}
+
+/* 모바일 대응 추가 */
+@media (max-width: 768px) {
+  .filter-container {
+    margin: 0 20px 20px 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .danger-title,
+  .secure-title {
+    font-size: 20px;
+  }
+  .danger-list p,
+  .secure-list p {
+    font-size: 14px;
+  }
+}
