@@ -5,44 +5,46 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   // ----------------------------------------------------
-  // 1. 실시간 시스템 시계 (PPT 15, 16장 개념 활용)
+  // 1. 실시간 시스템 시계 생성 및 업데이트 로직
   // ----------------------------------------------------
-  const navContainer = document.querySelector('.navbar .container')
   const clockElement = document.createElement('div')
 
-  // 시계 스타일링 (JS로 직접 구현)
-  clockElement.style.color = '#03ff40' // 테마 컬러 (초록)
-  clockElement.style.fontSize = '14px'
+  // 시계 스타일링 (크기 확대)
+  clockElement.style.color = '#03ff40'
+  clockElement.style.fontSize = '22px' // 기존 14px에서 22px로 확대
   clockElement.style.fontWeight = 'bold'
   clockElement.style.fontFamily = 'monospace'
-  clockElement.style.marginLeft = '20px'
-  clockElement.style.padding = '5px 10px'
-  clockElement.style.border = '1px solid #03ff40'
-  clockElement.style.borderRadius = '4px'
+  clockElement.style.padding = '12px 24px' // 안쪽 여백도 함께 확대
+  clockElement.style.border = '2px solid #03ff40' // 테두리 두께 2px로 변경
+  clockElement.style.borderRadius = '8px' // 테두리 둥글기 살짝 증가
   clockElement.style.backgroundColor = 'rgba(3, 255, 64, 0.1)'
+  clockElement.style.letterSpacing = '1px' // 글자 간격 추가
 
-  // 로고 옆에 시계 삽입
-  const logo = document.querySelector('.logo')
-  logo.after(clockElement)
+  // 시계를 가운데 정렬하기 위한 부모 컨테이너 생성
+  const clockContainer = document.createElement('div')
+  clockContainer.style.display = 'flex'
+  clockContainer.style.justifyContent = 'center' // 가로 중앙 정렬
+  clockContainer.style.width = '100%'
+  clockContainer.style.marginBottom = '30px' // 아래 카드들과의 간격
+
+  clockContainer.appendChild(clockElement)
 
   function updateClock() {
-    const now = new Date() // PPT 16-1: Date 객체 인스턴스 생성
+    const now = new Date()
 
-    // PPT 14-1: 변수와 자료형 활용
     const hours = String(now.getHours()).padStart(2, '0')
     const minutes = String(now.getMinutes()).padStart(2, '0')
     const seconds = String(now.getSeconds()).padStart(2, '0')
 
-    // PPT 17-2: innerText를 사용한 DOM 요소 내용 수정
     clockElement.innerText = `[SYSTEM ACTIVE] ${hours}:${minutes}:${seconds}`
   }
 
-  // 1초마다 시계 업데이트 (PPT 15-1: 이벤트와 타이머 개념)
+  // 1초마다 시계 업데이트
   setInterval(updateClock, 1000)
   updateClock() // 즉시 실행
 
   // ----------------------------------------------------
-  // 2. 카테고리 필터링 (맞춤형 호버 색상)
+  // 2. 카테고리 필터링 및 요소 배치
   // ----------------------------------------------------
   const categories = ['전체', '웹', '앱', '네트워크']
   const boxContainer = document.querySelector('.box-container')
@@ -57,10 +59,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const filterContainer = document.createElement('div')
   filterContainer.style.display = 'flex'
   filterContainer.style.justifyContent = 'flex-start'
+  filterContainer.style.alignItems = 'center'
   filterContainer.style.gap = '15px'
-  filterContainer.style.margin = '20px 0 40px 50px'
+  filterContainer.style.margin = '20px 50px 20px 50px'
 
+  // 필터 버튼 행을 먼저 카드 박스 위에 삽입
   boxContainer.parentNode.insertBefore(filterContainer, boxContainer)
+
+  // 그 다음 시계 컨테이너를 필터 버튼 행과 카드 박스 사이에 삽입
+  boxContainer.parentNode.insertBefore(clockContainer, boxContainer)
 
   const allBoxes = document.querySelectorAll('.box')
 
@@ -105,6 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
       })
     })
 
+    // 필터 컨테이너에 카테고리 버튼 추가
     filterContainer.appendChild(btn)
   })
 
@@ -139,13 +147,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const menuBtn = document.getElementById('menuBtn')
   const menu = document.getElementById('mobileMenu')
 
-  menuBtn.addEventListener('click', () => {
-    menu.classList.toggle('open')
-  })
+  if (menuBtn && menu) {
+    menuBtn.addEventListener('click', () => {
+      menu.classList.toggle('open')
+    })
 
-  document.addEventListener('click', (e) => {
-    if (!menuBtn.contains(e.target) && !menu.contains(e.target)) {
-      menu.classList.remove('open')
-    }
-  })
+    document.addEventListener('click', (e) => {
+      if (!menuBtn.contains(e.target) && !menu.contains(e.target)) {
+        menu.classList.remove('open')
+      }
+    })
+  }
 })
